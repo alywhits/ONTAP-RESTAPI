@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  gather_facts: false
+  collections:
+    - netapp.ontap
+  vars_files:
+    - global_nas.vars
+
+  tasks:
+    - name: Delete CIFS share
+      na_ontap_cifs:
+        state: absent
+        share_name: share_01
+        vserver: "{{ PRI_SVM }}"
+        path: "/{{ PRI_SVM }}_cifs_01/cifs_01"
+        hostname: "{{ PRI_CLU }}"
+        username: "{{ PRI_CLU_USER }}"
+        password: "{{ PRI_CLU_PASS }}"
+        https: true
+        validate_certs: false
+
+    - name: Delete CIFS qtree
+      na_ontap_qtree:
+        state: absent
+        name: cifs_01
+        vserver: "{{ PRI_SVM }}"
+        flexvol_name: "{{ PRI_SVM }}_cifs_01"
+        hostname: "{{ PRI_CLU }}"
+        username: "{{ PRI_CLU_USER }}"
+        password: "{{ PRI_CLU_PASS }}"
+        https: true
+        validate_certs: false
+
+    - name: Delete CIFS volume
+      na_ontap_volume:
+        state: absent
+        name: "{{ PRI_SVM }}_cifs_01"
+        vserver: "{{ PRI_SVM }}"
+        hostname: "{{ PRI_CLU }}"
+        username: "{{ PRI_CLU_USER }}"
+        password: "{{ PRI_CLU_PASS }}"
+        https: true
+        validate_certs: false

@@ -1,0 +1,192 @@
+2025-09-29 12:24:23,320 p=67480 u=root n=ansible |   hosts (1):
+2025-09-29 12:24:23,320 p=67480 u=root n=ansible |     192.168.0.102
+2025-09-29 12:24:37,391 p=67520 u=root n=ansible |   hosts (2):
+2025-09-29 12:24:37,391 p=67520 u=root n=ansible |     192.168.0.62
+2025-09-29 12:24:37,391 p=67520 u=root n=ansible |     192.168.0.61
+2025-09-29 12:24:50,294 p=67563 u=root n=ansible |   hosts (4):
+2025-09-29 12:24:50,294 p=67563 u=root n=ansible |     192.168.0.61
+2025-09-29 12:24:50,294 p=67563 u=root n=ansible |     192.168.0.62
+2025-09-29 12:24:50,294 p=67563 u=root n=ansible |     centos1
+2025-09-29 12:24:50,294 p=67563 u=root n=ansible |     centos2
+2025-09-29 12:25:03,761 p=67606 u=root n=ansible |   hosts (1):
+2025-09-29 12:25:03,761 p=67606 u=root n=ansible |     centos1
+2025-09-29 12:25:10,825 p=67627 u=root n=ansible |   hosts (1):
+2025-09-29 12:25:10,825 p=67627 u=root n=ansible |     centos2
+2025-09-29 12:26:14,787 p=68174 u=root n=ansible | centos1 | FAILED! => {
+    "msg": "Using a SSH password instead of a key is not possible because Host Key checking is enabled and sshpass does not support this.  Please add this host's fingerprint to your known_hosts file to manage this host."
+}
+2025-09-29 12:40:13,808 p=70962 u=root n=ansible | PLAY [NetApp Cluster1 System Setup] ***************************************************************************************************************************************************************************************
+2025-09-29 12:40:16,342 p=70962 u=root n=ansible | TASK [Create and Online New Data Aggregate Node1] *************************************************************************************************************************************************************************
+2025-09-29 12:40:16,344 p=70962 u=root n=ansible | changed: [localhost] => (item={'name': 'aggr1_cluster1_01_data', 'node': 'cluster1-01', 'diskcount': 13})
+2025-09-29 12:40:23,034 p=70962 u=root n=ansible | changed: [localhost] => (item={'name': 'aggr1_cluster1_02_data', 'node': 'cluster1-02', 'diskcount': 13})
+2025-09-29 12:40:31,031 p=70962 u=root n=ansible | TASK [Create Vserver] *****************************************************************************************************************************************************************************************************
+2025-09-29 12:40:31,032 p=70962 u=root n=ansible | changed: [localhost] => (item={'name': 'svm1', 'rootvol': 'svm1_root', 'rootaggr': 'aggr1_cluster1_01_data', 'aggr_list': 'aggr1_cluster1_01_data', 'allowed_protocols': 'nfs', 'dns_servers': '192.168.0.253', 'domain': 'demo.netapp.com'})
+2025-09-29 12:40:32,152 p=70962 u=root n=ansible | TASK [Create NFS LIF Node1] ***********************************************************************************************************************************************************************************************
+2025-09-29 12:40:32,153 p=70962 u=root n=ansible | changed: [localhost] => (item={'name': 'nfs_lif01', 'ip_addr': '192.168.0.141', 'netmask': '255.255.255.0', 'node': 'cluster1-01', 'vserver': 'svm1', 'home': 'e0c'})
+2025-09-29 12:40:33,049 p=70962 u=root n=ansible | changed: [localhost] => (item={'name': 'nfs_lif02', 'ip_addr': '192.168.0.142', 'netmask': '255.255.255.0', 'node': 'cluster1-02', 'vserver': 'svm1', 'home': 'e0c'})
+2025-09-29 12:40:33,986 p=70962 u=root n=ansible | TASK [Start NFS] **********************************************************************************************************************************************************************************************************
+2025-09-29 12:40:33,987 p=70962 u=root n=ansible | changed: [localhost] => (item={'name': 'svm1', 'rootvol': 'svm1_root', 'rootaggr': 'aggr1_cluster1_01_data', 'aggr_list': 'aggr1_cluster1_01_data', 'allowed_protocols': 'nfs', 'dns_servers': '192.168.0.253', 'domain': 'demo.netapp.com'})
+2025-09-29 12:40:34,855 p=70962 u=root n=ansible | TASK [Add NFS Export Rule Under Default Policy] ***************************************************************************************************************************************************************************
+2025-09-29 12:40:34,856 p=70962 u=root n=ansible | changed: [localhost] => (item={'name': 'svm1', 'rootvol': 'svm1_root', 'rootaggr': 'aggr1_cluster1_01_data', 'aggr_list': 'aggr1_cluster1_01_data', 'allowed_protocols': 'nfs', 'dns_servers': '192.168.0.253', 'domain': 'demo.netapp.com'})
+2025-09-29 12:40:35,679 p=70962 u=root n=ansible | TASK [Add DNS Settings to svm] ********************************************************************************************************************************************************************************************
+2025-09-29 12:40:35,680 p=70962 u=root n=ansible | changed: [localhost] => (item={'name': 'svm1', 'rootvol': 'svm1_root', 'rootaggr': 'aggr1_cluster1_01_data', 'aggr_list': 'aggr1_cluster1_01_data', 'allowed_protocols': 'nfs', 'dns_servers': '192.168.0.253', 'domain': 'demo.netapp.com'})
+2025-09-29 12:40:38,322 p=70962 u=root n=ansible | TASK [Create Volumes] *****************************************************************************************************************************************************************************************************
+2025-09-29 12:40:38,322 p=70962 u=root n=ansible | changed: [localhost] => (item={'name': 'vol1', 'size': 1, 'aggr': 'aggr1_cluster1_01_data', 'vserver': 'svm1', 'security_style': 'unix'})
+2025-09-29 12:40:39,909 p=70962 u=root n=ansible | changed: [localhost] => (item={'name': 'vol2', 'size': 2, 'aggr': 'aggr1_cluster1_01_data', 'vserver': 'svm1', 'security_style': 'unix'})
+2025-09-29 12:40:41,509 p=70962 u=root n=ansible | changed: [localhost] => (item={'name': 'vol3', 'size': 3, 'aggr': 'aggr1_cluster1_01_data', 'vserver': 'svm1', 'security_style': 'unix'})
+2025-09-29 12:40:41,511 p=70962 u=root n=ansible | [WARNING]: Cannot perform actions: modify when volume is offline.
+
+2025-09-29 12:40:41,529 p=70962 u=root n=ansible | PLAY RECAP ****************************************************************************************************************************************************************************************************************
+2025-09-29 12:40:41,529 p=70962 u=root n=ansible | localhost                  : ok=7    changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-09-30 10:55:24,916 p=112421 u=root n=ansible | An exception occurred during task execution. To see the full traceback, use -vvv. The error was: NoneType: None
+2025-09-30 10:55:24,918 p=112421 u=root n=ansible | localhost | FAILED! => {
+    "changed": false,
+    "msg": "Error creating volume vol1sept30: calling: storage/volumes: got {'message': \"Aggregate aggr1 not found. Reason: entry doesn't exist. \", 'code': '917508'}."
+}
+2025-09-30 10:57:13,733 p=112883 u=root n=ansible | ERROR! Unable to parse argument string. list index out of range
+2025-09-30 10:57:44,478 p=112904 u=root n=ansible | localhost | CHANGED => {
+    "actions": [
+        "create"
+    ],
+    "changed": true
+}
+2025-09-30 10:58:31,390 p=113109 u=root n=ansible | ERROR! Unable to parse argument string. list index out of range
+2025-09-30 10:58:52,852 p=113119 u=root n=ansible | [WARNING]: The module only supports ZAPI and is deprecated, and will no longer work with newer versions of ONTAP when
+ONTAPI is deprecated in CY22-Q4
+
+2025-09-30 10:58:52,853 p=113119 u=root n=ansible | [WARNING]: netapp.ontap.na_ontap_rest_info should be used instead.
+
+2025-09-30 10:58:52,853 p=113119 u=root n=ansible | [WARNING]: With version 22.0.0 ONTAPI (ZAPI) has been deprecated. The final ONTAP version to support ZAPI is ONTAP
+9.13.1.  ZAPI calls in these modules will continue to work for ONTAP versions that supports ZAPI.  You can update your
+playbook to use REST by adding use_rest: always to your playbook.  More information can be found at:
+https://github.com/ansible-collections/netapp.ontap
+
+2025-09-30 10:58:52,853 p=113119 u=root n=ansible | localhost | FAILED! => {
+    "changed": false,
+    "msg": "Bad subset: volumes"
+}
+2025-09-30 11:01:49,950 p=113221 u=root n=ansible | localhost | FAILED! => {
+    "changed": false,
+    "msg": "Unsupported parameters for (netapp.ontap.na_ontap_rest_info) module: vserver. Supported parameters include: cert_filepath, feature_flags, fields, force_ontap_version, gather_subset, hostname, http_port, https, ignore_api_errors, key_filepath, max_records, ontapi, owning_resource, parameters, password, state, use_python_keys, use_rest, username, validate_certs (pass, user)."
+}
+2025-09-30 11:02:33,768 p=113260 u=root n=ansible | localhost | FAILED! => {
+    "changed": false,
+    "msg": "Specified subset volumes is not found, supported subsets are ['application/applications', 'application/consistency-groups', 'application/templates', 'cloud/targets', 'cluster', 'cluster/chassis', 'cluster/counter/tables', 'cluster/fireware/history', 'cluster/jobs', 'cluster/licensing/capacity-pools', 'cluster/licensing/license-managers', 'cluster/licensing/licenses', 'cluster/mediators', 'cluster/metrics', 'cluster/metrocluster', 'cluster/metrocluster/diagnostics', 'cluster/metrocluster/dr-groups', 'cluster/metrocluster/interconnects', 'cluster/metrocluster/nodes', 'cluster/metrocluster/operations', 'cluster/metrocluster/svms', 'cluster/nodes', 'cluster/ntp/keys', 'cluster/ntp/servers', 'cluster/peers', 'cluster/schedules', 'cluster/sensors', 'cluster/software', 'cluster/software/download', 'cluster/software/history', 'cluster/software/packages', 'cluster/web', 'name-services/cache/group-membership/settings', 'name-services/cache/host/settings', 'name-services/cache/netgroup/settings', 'name-services/cache/setting', 'name-services/cache/unix-group/settings', 'name-services/dns', 'name-services/ldap', 'name-services/ldap-schemas', 'name-services/local-hosts', 'name-services/name-mappings', 'name-services/nis', 'name-services/unix-groups', 'name-services/unix-users', 'network/ethernet/broadcast-domains', 'network/ethernet/ports', 'network/ethernet/switch/ports', 'network/ethernet/switches', 'network/fc/fabrics', 'network/fc/interfaces', 'network/fc/logins', 'network/fc/ports', 'network/fc/wwpn-aliases', 'network/http-proxy', 'network/ip/bgp/peer-groups', 'network/ip/interfaces', 'network/ip/routes', 'network/ip/service-policies', 'network/ip/subnets', 'network/ipspaces', 'private/support/alerts', 'protocols/active-directory', 'protocols/audit', 'protocols/cifs/connections', 'protocols/cifs/domains', 'protocols/cifs/group-policies', 'protocols/cifs/home-directory/search-paths', 'protocols/cifs/local-groups', 'protocols/cifs/local-users', 'protocols/cifs/netbios', 'protocols/cifs/services', 'protocols/cifs/session/files', 'protocols/cifs/sessions', 'protocols/cifs/shadow-copies', 'protocols/cifs/shadowcopy-sets', 'protocols/cifs/shares', 'protocols/cifs/unix-symlink-mapping', 'protocols/cifs/users-and-groups/privileges', 'protocols/fpolicy', 'protocols/locks', 'protocols/ndmp', 'protocols/ndmp/nodes', 'protocols/ndmp/sessions', 'protocols/ndmp/svms', 'protocols/nfs/connected-clients', 'protocols/nfs/connected-client-maps', 'protocols/nfs/connected-client-settings', 'protocols/nfs/export-policies', 'protocols/nfs/kerberos/interfaces', 'protocols/nfs/kerberos/realms', 'protocols/nfs/services', 'protocols/nvme/interfaces', 'protocols/nvme/services', 'protocols/nvme/subsystem-controllers', 'protocols/nvme/subsystem-maps', 'protocols/nvme/subsystems', 'protocols/s3/buckets', 'protocols/s3/services', 'protocols/san/fcp/services', 'protocols/san/igroups', 'protocols/san/iscsi/credentials', 'protocols/san/iscsi/services', 'protocols/san/iscsi/sessions', 'protocols/san/lun-maps', 'protocols/san/portsets', 'protocols/san/vvol-bindings', 'protocols/vscan/server-status', 'protocols/vscan', 'security', 'security/accounts', 'security/anti-ransomware/suspects', 'security/audit', 'security/audit/destinations', 'security/audit/messages', 'security/authentication/cluster/ad-proxy', 'security/authentication/cluster/ldap', 'security/authentication/cluster/nis', 'security/authentication/cluster/saml-sp', 'security/authentication/publickeys', 'security/aws-kms', 'security/azure-key-vaults', 'security/certificates', 'security/gcp-kms', 'security/ipsec', 'security/ipsec/ca-certificates', 'security/ipsec/policies', 'security/ipsec/security-associations', 'security/key-manager-configs', 'security/key-managers', 'security/key-stores', 'security/login/messages', 'security/multi-admin-verify', 'security/multi-admin-verify/approval-groups', 'security/multi-admin-verify/requests', 'security/multi-admin-verify/rules', 'security/roles', 'security/ssh', 'security/ssh/svms', 'snapmirror/policies', 'snapmirror/relationships', 'storage/aggregates', 'storage/bridges', 'storage/cluster', 'storage/disks', 'storage/file/clone/split-loads', 'storage/file/clone/split-status', 'storage/file/clone/tokens', 'storage/file/moves', 'storage/flexcache/flexcaches', 'storage/flexcache/origins', 'storage/luns', 'storage/namespaces', 'storage/pools', 'storage/ports', 'storage/qos/policies', 'storage/qos/workloads', 'storage/qtrees', 'storage/quota/reports', 'storage/quota/rules', 'storage/shelves', 'storage/snaplock/audit-logs', 'storage/snaplock/compliance-clocks', 'storage/snaplock/event-retention/operations', 'storage/snaplock/event-retention/policies', 'storage/snaplock/file-fingerprints', 'storage/snaplock/litigations', 'storage/snapshot-policies', 'storage/switches', 'storage/tape-devices', 'storage/volumes', 'storage/volume-efficiency-policies', 'support/autosupport', 'support/autosupport/check', 'support/autosupport/messages', 'support/auto-update', 'support/auto-update/configurations', 'support/auto-update/updates', 'support/configuration-backup', 'support/configuration-backup/backups', 'support/coredump/coredumps', 'support/ems', 'support/ems/destinations', 'support/ems/events', 'support/ems/filters', 'support/ems/messages', 'support/snmp', 'support/snmp/traphosts', 'support/snmp/users', 'svm/migrations', 'svm/peers', 'svm/peer-permissions', 'svm/svms']"
+}
+2025-09-30 11:03:14,835 p=113283 u=root n=ansible | localhost | SUCCESS => {
+    "changed": false,
+    "ontap_info": {
+        "storage/volumes": {
+            "_links": {
+                "self": {
+                    "href": "/api/storage/volumes?max_records=1024&fields=&svm.name=nas_svm"
+                }
+            },
+            "num_records": 2,
+            "records": [
+                {
+                    "_links": {
+                        "self": {
+                            "href": "/api/storage/volumes/12ff18f6-9e07-11f0-92aa-00505695cea5"
+                        }
+                    },
+                    "name": "nas_svm_root",
+                    "svm": {
+                        "name": "nas_svm"
+                    },
+                    "uuid": "12ff18f6-9e07-11f0-92aa-00505695cea5"
+                },
+                {
+                    "_links": {
+                        "self": {
+                            "href": "/api/storage/volumes/d0e306f7-9e0d-11f0-bf63-0050569522c1"
+                        }
+                    },
+                    "name": "vol1sept30",
+                    "svm": {
+                        "name": "nas_svm"
+                    },
+                    "uuid": "d0e306f7-9e0d-11f0-bf63-0050569522c1"
+                }
+            ]
+        }
+    }
+}
+2025-09-30 11:03:39,402 p=113317 u=root n=ansible | localhost | SUCCESS => {
+    "changed": false
+}
+2025-09-30 11:03:47,920 p=113339 u=root n=ansible | localhost | SUCCESS => {
+    "changed": false,
+    "ontap_info": {
+        "cluster": {
+            "_links": {
+                "self": {
+                    "href": "/api/cluster"
+                }
+            }
+        }
+    }
+}
+2025-09-30 11:03:58,289 p=113361 u=root n=ansible | localhost | SUCCESS => {
+    "changed": false,
+    "ontap_info": {
+        "svm/svms": {
+            "_links": {
+                "self": {
+                    "href": "/api/svm/svms?max_records=1024&fields=&name=nas_svm"
+                }
+            },
+            "num_records": 1,
+            "records": [
+                {
+                    "_links": {
+                        "self": {
+                            "href": "/api/svm/svms/121c3432-9e07-11f0-bf63-0050569522c1"
+                        }
+                    },
+                    "name": "nas_svm",
+                    "uuid": "121c3432-9e07-11f0-bf63-0050569522c1"
+                }
+            ]
+        }
+    }
+}
+2025-09-30 11:59:27,494 p=115480 u=root n=ansible | PLAY [localhost] ****************************************************************************************************************************************************************************************************************************
+2025-09-30 11:59:28,492 p=115480 u=root n=ansible | TASK [Create CIFS volume] *******************************************************************************************************************************************************************************************************************
+2025-09-30 11:59:28,494 p=115480 u=root n=ansible | changed: [localhost]
+2025-09-30 11:59:29,300 p=115480 u=root n=ansible | TASK [Create CIFS qtree] ********************************************************************************************************************************************************************************************************************
+2025-09-30 11:59:29,301 p=115480 u=root n=ansible | changed: [localhost]
+2025-09-30 11:59:30,078 p=115480 u=root n=ansible | TASK [Create CIFS share] ********************************************************************************************************************************************************************************************************************
+2025-09-30 11:59:30,079 p=115480 u=root n=ansible | changed: [localhost]
+2025-09-30 11:59:30,098 p=115480 u=root n=ansible | PLAY RECAP **********************************************************************************************************************************************************************************************************************************
+2025-09-30 11:59:30,098 p=115480 u=root n=ansible | localhost                  : ok=3    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-09-30 12:00:12,947 p=115558 u=root n=ansible | PLAY [localhost] ****************************************************************************************************************************************************************************************************************************
+2025-09-30 12:00:15,179 p=115558 u=root n=ansible | TASK [Create CIFS volume] *******************************************************************************************************************************************************************************************************************
+2025-09-30 12:00:15,180 p=115558 u=root n=ansible | [WARNING]: Cannot perform actions: modify when volume is offline.
+
+2025-09-30 12:00:15,180 p=115558 u=root n=ansible | changed: [localhost]
+2025-09-30 12:00:16,802 p=115558 u=root n=ansible | TASK [Create CIFS qtree] ********************************************************************************************************************************************************************************************************************
+2025-09-30 12:00:16,802 p=115558 u=root n=ansible | changed: [localhost]
+2025-09-30 12:00:17,710 p=115558 u=root n=ansible | TASK [Create CIFS share] ********************************************************************************************************************************************************************************************************************
+2025-09-30 12:00:17,711 p=115558 u=root n=ansible | changed: [localhost]
+2025-09-30 12:00:17,731 p=115558 u=root n=ansible | PLAY RECAP **********************************************************************************************************************************************************************************************************************************
+2025-09-30 12:00:17,731 p=115558 u=root n=ansible | localhost                  : ok=3    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-09-30 12:06:23,467 p=115738 u=root n=ansible | PLAY [localhost] ****************************************************************************************************************************************************************************************************************************
+2025-09-30 12:06:24,203 p=115738 u=root n=ansible | TASK [Create NFS qtree] *********************************************************************************************************************************************************************************************************************
+2025-09-30 12:06:24,204 p=115738 u=root n=ansible | changed: [localhost]
+2025-09-30 12:06:24,988 p=115738 u=root n=ansible | TASK [Create export policy rule for NFS] ****************************************************************************************************************************************************************************************************
+2025-09-30 12:06:24,988 p=115738 u=root n=ansible | changed: [localhost]
+2025-09-30 12:06:25,009 p=115738 u=root n=ansible | PLAY RECAP **********************************************************************************************************************************************************************************************************************************
+2025-09-30 12:06:25,010 p=115738 u=root n=ansible | localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-09-30 12:06:52,332 p=115781 u=root n=ansible | PLAY [localhost] ****************************************************************************************************************************************************************************************************************************
+2025-09-30 12:06:53,139 p=115781 u=root n=ansible | TASK [Create NFS qtree] *********************************************************************************************************************************************************************************************************************
+2025-09-30 12:06:53,141 p=115781 u=root n=ansible | fatal: [localhost]: FAILED! => {"changed": false, "msg": "Error creating qtree nfs_01: calling: storage/qtrees: got {'message': 'Volume \"nas_svm_nfs_01\" in SVM \"nas_svm\" does not exist.', 'code': '917927', 'target': 'volume.name'}."}
+2025-09-30 12:06:53,143 p=115781 u=root n=ansible | PLAY RECAP **********************************************************************************************************************************************************************************************************************************
+2025-09-30 12:06:53,143 p=115781 u=root n=ansible | localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-09-30 12:08:43,956 p=115829 u=root n=ansible | PLAY [localhost] ****************************************************************************************************************************************************************************************************************************
+2025-09-30 12:08:44,956 p=115829 u=root n=ansible | TASK [Create NFS qtree] *********************************************************************************************************************************************************************************************************************
+2025-09-30 12:08:44,957 p=115829 u=root n=ansible | changed: [localhost]
+2025-09-30 12:08:45,861 p=115829 u=root n=ansible | TASK [Create export policy rule for NFS] ****************************************************************************************************************************************************************************************************
+2025-09-30 12:08:45,862 p=115829 u=root n=ansible | changed: [localhost]
+2025-09-30 12:08:45,881 p=115829 u=root n=ansible | PLAY RECAP **********************************************************************************************************************************************************************************************************************************
+2025-09-30 12:08:45,882 p=115829 u=root n=ansible | localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   

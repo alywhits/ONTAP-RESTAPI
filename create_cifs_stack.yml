@@ -1,0 +1,50 @@
+---
+- hosts: localhost
+  gather_facts: false
+  collections:
+    - netapp.ontap
+  vars_files:
+    - global_nas.vars
+
+  tasks:
+    - name: Create CIFS volume
+      na_ontap_volume:
+        state: present
+        name: "{{ PRI_SVM }}_cifs_01"
+        vserver: "{{ PRI_SVM }}"
+        aggregate_name: "{{ PRI_AGGR }}"
+        size: "{{ VOL_SIZE }}"
+        size_unit: mb
+        policy: default
+        junction_path: "/{{ PRI_SVM }}_cifs_01"
+        volume_security_style: ntfs
+        hostname: "{{ PRI_CLU }}"
+        username: "{{ PRI_CLU_USER }}"
+        password: "{{ PRI_CLU_PASS }}"
+        https: true
+        validate_certs: false
+
+    - name: Create CIFS qtree
+      na_ontap_qtree:
+        state: present
+        name: cifs_01
+        vserver: "{{ PRI_SVM }}"
+        flexvol_name: "{{ PRI_SVM }}_cifs_01"
+        security_style: ntfs
+        hostname: "{{ PRI_CLU }}"
+        username: "{{ PRI_CLU_USER }}"
+        password: "{{ PRI_CLU_PASS }}"
+        https: true
+        validate_certs: false
+
+    - name: Create CIFS share
+      na_ontap_cifs:
+        state: present
+        share_name: share_01
+        vserver: "{{ PRI_SVM }}"
+        path: "/{{ PRI_SVM }}_cifs_01/cifs_01"
+        hostname: "{{ PRI_CLU }}"
+        username: "{{ PRI_CLU_USER }}"
+        password: "{{ PRI_CLU_PASS }}"
+        https: true
+        validate_certs: false

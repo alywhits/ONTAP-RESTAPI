@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  gather_facts: false
+  collections:
+    - netapp.ontap
+  vars_files:
+    - global_nas.vars
+
+  tasks:
+    - name: Create CIFS share
+      na_ontap_cifs:
+        state: present
+        share_name: share_01
+        vserver: nas_svm
+        path: /nas_svm_cifs_01/cifs_01
+        hostname: "{{ PRI_CLU }}"
+        username: "{{ PRI_CLU_USER }}"
+        password: "{{ PRI_CLU_PASS }}"
+        https: true
+        validate_certs: false

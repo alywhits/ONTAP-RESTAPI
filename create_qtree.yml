@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  gather_facts: false
+  collections:
+    - netapp.ontap
+  vars_files:
+    - global_nas.vars
+
+  tasks:
+    - name: Create CIFS qtree
+      na_ontap_qtree:
+        state: present
+        name: cifs_01
+        vserver: nas_svm
+        flexvol_name: nas_svm_cifs_01
+        security_style: ntfs
+        hostname: "{{ PRI_CLU }}"
+        username: "{{ PRI_CLU_USER }}"
+        password: "{{ PRI_CLU_PASS }}"
+        https: true
+        validate_certs: false

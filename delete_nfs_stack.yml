@@ -1,0 +1,38 @@
+---
+- hosts: localhost
+  gather_facts: false
+  collections:
+    - netapp.ontap
+  vars_files:
+    - global_nas.vars
+
+  tasks:
+    - name: Delete export policy rule for NFS
+      na_ontap_export_policy_rule:
+        state: absent
+        policy_name: default
+        vserver: "{{ PRI_SVM }}"
+        client_match: 192.168.0.0/24
+        ro_rule: any
+        rw_rule: any
+        protocol: nfs3
+        super_user_security: any
+        anonymous_user_id: 65534
+        allow_suid: true
+        hostname: "{{ PRI_CLU }}"
+        username: "{{ PRI_CLU_USER }}"
+        password: "{{ PRI_CLU_PASS }}"
+        https: true
+        validate_certs: false
+
+    - name: Delete NFS qtree
+      na_ontap_qtree:
+        state: absent
+        name: nfs_01
+        vserver: "{{ PRI_SVM }}"
+        flexvol_name: "{{ PRI_SVM }}_nfs_01"
+        hostname: "{{ PRI_CLU }}"
+        username: "{{ PRI_CLU_USER }}"
+        password: "{{ PRI_CLU_PASS }}"
+        https: true
+        validate_certs: false
